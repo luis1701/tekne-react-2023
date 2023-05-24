@@ -11,27 +11,32 @@ function fetchTasks() {
     {
       id: 1,
       state: 'ON_PROGRESS',
-      name: 'Maketar frontend'
+      name: 'Maketar frontend',
+      comments: ["Hola, no se entiende la tarea"]
     },
     {
       id: 2,
       state: 'ON_PROGRESS',
-      name: 'Implementar endpoints de backend'
+      name: 'Implementar endpoints de backend',
+      comments: []
     },
     {
       id: 3,
       state: 'TODO',
-      name: 'Implementacion de login'
+      name: 'Implementacion de login',
+      comments: []
     },
     {
       id: 4,
       state: 'TODO',
-      name: 'Implementacion de Menu'
+      name: 'Implementacion de Menu',
+      comments: []
     },
     {
       id: 5,
       state: 'FINISH',
-      name: 'Responsive'
+      name: 'Responsive',
+      comments: []
     },
 
   ]
@@ -95,6 +100,16 @@ function Home() {
     }
   }
 
+  const onPressAddComment = (task, comment) => {
+    const tasksUpdated = tasksState.map((currentTask) => {
+      if (currentTask.id === task.id) {
+        currentTask.comments.push(comment)
+      }
+      return currentTask;
+    })
+    setTasksState(tasksUpdated);
+  }
+
   if (loading) {
     return 'Cargando...'
   }
@@ -109,7 +124,7 @@ function Home() {
         TODO
         {filterDataByState('TODO').map((value, index) => {
           return (
-            <TaskCard taskInfo={value} key={index} onPressButtonTask={onPressButtonTask}/>
+            <TaskCard taskInfo={value} key={index} onPressButtonTask={onPressButtonTask} onPressAddComment={onPressAddComment}/>
           )
         })}
       </div>
@@ -117,7 +132,7 @@ function Home() {
         ON_PROGRESS
         {filterDataByState('ON_PROGRESS').map((value, index) => {
           return (
-            <TaskCard taskInfo={value} key={index } onPressButtonTask={onPressButtonTask}/>
+            <TaskCard taskInfo={value} key={index } onPressButtonTask={onPressButtonTask} onPressAddComment={onPressAddComment}/>
           )
         })}
       </div>
@@ -125,7 +140,7 @@ function Home() {
         FINISH
         {filterDataByState('FINISH').map((value, index) => {
           return (
-            <TaskCard taskInfo={value} key={index} onPressButtonTask={onPressButtonTask}/>
+            <TaskCard taskInfo={value} key={index} onPressButtonTask={onPressButtonTask} onPressAddComment={onPressAddComment}/>
           )
         })}
       </div>

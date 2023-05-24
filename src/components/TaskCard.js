@@ -10,13 +10,31 @@ import { useEffect, useState } from 'react';
 
 function TaskCard(props) {
 
-    const { taskInfo, onPressButtonTask } = props;
+    const { taskInfo, onPressButtonTask, onPressAddComment } = props;
+
+    const [newComment, setNewComment] = useState("")
 
     return (
         <div style={{ background: 'grey', margin: '15px' }}>
             <p>Name: {taskInfo?.name}</p>
             <p>Id: {taskInfo?.id}</p>
             <p>State: {taskInfo?.state}</p>
+            {taskInfo.comments && taskInfo.comments.length > 0 && <div>
+                Comments:
+                {taskInfo.comments.map((comment) => {
+                    return (
+                        <p>{comment}</p>
+                    )
+                })}
+            </div>}
+            <div>
+                <strong>Add comment:</strong>
+                <input type='text' value={newComment} onChange={(event) => setNewComment(event.target.value)} ></input>
+                <button onClick={() => {
+                    onPressAddComment(taskInfo, newComment)
+                    setNewComment('')
+                }}>Add</button>
+            </div>
             <button onClick={() => onPressButtonTask(taskInfo)}>NEXT</button>
         </div>
     )
