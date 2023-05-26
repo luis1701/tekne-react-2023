@@ -10,13 +10,18 @@ import { useEffect, useState } from 'react';
 
 function TaskCard(props) {
 
-    const { taskInfo, onPressButtonTask, onPressAddComment } = props;
+    const { taskInfo, onPressButtonTask, onPressAddComment, deleteTask, setNewNameForTask } = props;
 
     const [newComment, setNewComment] = useState("")
+    const [currentTaskName, setCurrentTaskName] = useState(taskInfo?.name)
 
     return (
         <div style={{ background: 'grey', margin: '15px' }}>
             <p>Name: {taskInfo?.name}</p>
+            <p>
+                <input type= "text" value={currentTaskName} onChange={(event) => setCurrentTaskName(event.target.value)} />
+                <button onClick={() => setNewNameForTask(currentTaskName, taskInfo)}>Update</button>
+            </p>
             <p>Id: {taskInfo?.id}</p>
             <p>State: {taskInfo?.state}</p>
             {taskInfo.comments && taskInfo.comments.length > 0 && <div>
@@ -35,6 +40,7 @@ function TaskCard(props) {
                     setNewComment('')
                 }}>Add</button>
             </div>
+            <button onClick={() => deleteTask(taskInfo)}>DELETE</button>
             <button onClick={() => onPressButtonTask(taskInfo)}>NEXT</button>
         </div>
     )

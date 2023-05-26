@@ -79,6 +79,23 @@ function Home() {
     setTasksState(filterOtherTasks);
   }
 
+  const setNewNameForTask = (newName, task) => {
+    const filterOtherTasks = tasksState.filter((value) => {
+      return value.id !== task.id
+    })
+    task.name = newName;
+    filterOtherTasks.push(task);
+    setTasksState(filterOtherTasks);
+  }
+
+  const deleteTask = (task) => {
+    const filterOtherTasks = tasksState.filter((value) => {
+      return value.id !== task.id
+    })
+    setTasksState(filterOtherTasks);
+  }
+
+
   const onPressButtonTask = (task) => {
     switch (task.state) {
       case 'TODO':
@@ -154,7 +171,14 @@ function Home() {
           TODO
           {filterDataByState('TODO').map((value, index) => {
             return (
-              <TaskCard taskInfo={value} key={value.id} onPressButtonTask={onPressButtonTask} onPressAddComment={onPressAddComment}/>
+              <TaskCard
+                taskInfo={value}
+                key={value.id}
+                onPressButtonTask={onPressButtonTask}
+                onPressAddComment={onPressAddComment}
+                deleteTask={deleteTask}
+                setNewNameForTask={setNewNameForTask}
+              />
             )
           })}
         </div>
@@ -162,7 +186,15 @@ function Home() {
           ON_PROGRESS
           {filterDataByState('ON_PROGRESS').map((value, index) => {
             return (
-              <TaskCard taskInfo={value} key={value.id } onPressButtonTask={onPressButtonTask} onPressAddComment={onPressAddComment}/>
+              <TaskCard
+                taskInfo={value}
+                key={value.id }
+                onPressButtonTask={onPressButtonTask}
+                onPressAddComment={onPressAddComment}
+                deleteTask={deleteTask}
+                setNewNameForTask={setNewNameForTask}
+
+              />
             )
           })}
         </div>
@@ -170,7 +202,15 @@ function Home() {
           FINISH
           {filterDataByState('FINISH').map((value, index) => {
             return (
-              <TaskCard taskInfo={value} key={value.id} onPressButtonTask={onPressButtonTask} onPressAddComment={onPressAddComment}/>
+              <TaskCard
+                taskInfo={value}
+                key={value.id}
+                onPressButtonTask={onPressButtonTask}
+                onPressAddComment={onPressAddComment}
+                deleteTask={deleteTask}
+                setNewNameForTask={setNewNameForTask}
+
+              />
             )
           })}
         </div>
