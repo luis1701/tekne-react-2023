@@ -108,6 +108,14 @@ function Home() {
     setTasksState(tasksUpdated);
   }
 
+  const deleteOnPressButton = (task)=>{
+    console.log("testeando boton");
+    const tasksUpdated = tasksState.filter((value)=>{
+      return value.id !== task.id
+    })
+    setTasksState(tasksUpdated);
+  }
+
   if (loading) {
     return 'Cargando...'
   }
@@ -154,7 +162,7 @@ function Home() {
           TODO
           {filterDataByState('TODO').map((value, index) => {
             return (
-              <TaskCard taskInfo={value} key={value.id} onPressButtonTask={onPressButtonTask} onPressAddComment={onPressAddComment}/>
+              <TaskCard taskInfo={value} key={value.id} onPressButtonTask={onPressButtonTask} onPressAddComment={onPressAddComment} deleteOnPressButton={deleteOnPressButton}/>
             )
           })}
         </div>
@@ -162,7 +170,7 @@ function Home() {
           ON_PROGRESS
           {filterDataByState('ON_PROGRESS').map((value, index) => {
             return (
-              <TaskCard taskInfo={value} key={value.id } onPressButtonTask={onPressButtonTask} onPressAddComment={onPressAddComment}/>
+              <TaskCard taskInfo={value} key={value.id } onPressButtonTask={onPressButtonTask} onPressAddComment={onPressAddComment } deleteOnPressButton={deleteOnPressButton}/>
             )
           })}
         </div>
@@ -170,7 +178,7 @@ function Home() {
           FINISH
           {filterDataByState('FINISH').map((value, index) => {
             return (
-              <TaskCard taskInfo={value} key={value.id} onPressButtonTask={onPressButtonTask} onPressAddComment={onPressAddComment}/>
+              <TaskCard taskInfo={value} key={value.id} onPressButtonTask={onPressButtonTask} onPressAddComment={onPressAddComment} deleteOnPressButton={deleteOnPressButton}/>
             )
           })}
         </div>

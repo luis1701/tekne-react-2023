@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 
 function TaskCard(props) {
 
-    const { taskInfo, onPressButtonTask, onPressAddComment } = props;
+    const { taskInfo, onPressButtonTask, onPressAddComment, deleteOnPressButton } = props;
 
     const [newComment, setNewComment] = useState("")
 
@@ -36,6 +36,13 @@ function TaskCard(props) {
                 }}>Add</button>
             </div>
             <button onClick={() => onPressButtonTask(taskInfo)}>NEXT</button>
+            <div>
+                <button
+                    onClick={()=> deleteOnPressButton(taskInfo)}
+                >
+                    Delete
+                </button>
+            </div>
         </div>
     )
 }
