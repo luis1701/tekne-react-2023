@@ -9,6 +9,12 @@ import TaskCard from '../components/TaskCard';
 function fetchTasks() {
   return [
     {
+      id: 5,
+      state: 'FINISH',
+      name: 'Responsive',
+      comments: []
+    },
+    {
       id: 1,
       state: 'ON_PROGRESS',
       name: 'Maketar frontend',
@@ -32,13 +38,6 @@ function fetchTasks() {
       name: 'Implementacion de Menu',
       comments: []
     },
-    {
-      id: 5,
-      state: 'FINISH',
-      name: 'Responsive',
-      comments: []
-    },
-
   ]
 }
 
@@ -46,8 +45,7 @@ function Home() {
 
   const [tasksState, setTasksState] = useState([])
   const [loading, setLoading] = useState(true)
-
-  console.log(tasksState, ' tasksState')
+  const [newTask, setNewTask] = useState('')
 
   useEffect(() => {
     console.log('on mount')
@@ -114,36 +112,68 @@ function Home() {
     return 'Cargando...'
   }
 
+  const getNewId = () => {
+    const maxValueId = tasksState.reduce((acc, value, index) => {
+      if (value.id >= acc) {
+        return value.id
+      }
+      return acc
+    }, 0)
+    return maxValueId + 1;
+  }
+
+  const onPressAddNewTaks = () => {
+    const buildTask = {
+      id: getNewId(),
+      state: 'TODO',
+      name: newTask,
+      comments: []
+    }
+    setTasksState([...tasksState, buildTask])
+    setNewTask('')
+  }
+
   return (
-    <div className="Home" style={{ 
-      display: 'flex',
-      justifyContent: 'center',
-      textAlign: 'center'
-     }}>
-      <div>
-        TODO
-        {filterDataByState('TODO').map((value, index) => {
-          return (
-            <TaskCard taskInfo={value} key={index} onPressButtonTask={onPressButtonTask} onPressAddComment={onPressAddComment}/>
-          )
-        })}
-      </div>
-      <div>
-        ON_PROGRESS
-        {filterDataByState('ON_PROGRESS').map((value, index) => {
-          return (
-            <TaskCard taskInfo={value} key={index } onPressButtonTask={onPressButtonTask} onPressAddComment={onPressAddComment}/>
-          )
-        })}
-      </div>
-      <div>
-        FINISH
-        {filterDataByState('FINISH').map((value, index) => {
-          return (
-            <TaskCard taskInfo={value} key={index} onPressButtonTask={onPressButtonTask} onPressAddComment={onPressAddComment}/>
-          )
-        })}
-      </div>
+      <div className="Home" style={{ 
+        display: 'flex',
+        justifyContent: 'center',
+        textAlign: 'center'
+      }}>
+        <div style={{ 
+          display: 'flex',
+          justifyContent: 'center',
+          textAlign: 'center',
+        }}>
+          <div>
+            Add new task
+            <input value={newTask} type='text' onChange={(e) => setNewTask(e.target.value)} />
+            <button onClick={() => onPressAddNewTaks()}>Add +</button>
+          </div>
+        </div>
+        <div>
+          TODO
+          {filterDataByState('TODO').map((value, index) => {
+            return (
+              <TaskCard taskInfo={value} key={value.id} onPressButtonTask={onPressButtonTask} onPressAddComment={onPressAddComment}/>
+            )
+          })}
+        </div>
+        <div>
+          ON_PROGRESS
+          {filterDataByState('ON_PROGRESS').map((value, index) => {
+            return (
+              <TaskCard taskInfo={value} key={value.id } onPressButtonTask={onPressButtonTask} onPressAddComment={onPressAddComment}/>
+            )
+          })}
+        </div>
+        <div>
+          FINISH
+          {filterDataByState('FINISH').map((value, index) => {
+            return (
+              <TaskCard taskInfo={value} key={value.id} onPressButtonTask={onPressButtonTask} onPressAddComment={onPressAddComment}/>
+            )
+          })}
+        </div>
     </div>
   );
 }

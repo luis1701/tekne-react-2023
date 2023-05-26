@@ -21,9 +21,9 @@ function TaskCard(props) {
             <p>State: {taskInfo?.state}</p>
             {taskInfo.comments && taskInfo.comments.length > 0 && <div>
                 Comments:
-                {taskInfo.comments.map((comment) => {
+                {taskInfo.comments.map((comment, index) => {
                     return (
-                        <p>{comment}</p>
+                        <p key={index}>{comment}</p>
                     )
                 })}
             </div>}
