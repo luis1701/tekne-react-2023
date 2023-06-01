@@ -1,13 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import Home from './pages/Home';
 import reportWebVitals from './reportWebVitals';
+import { AppContext } from './context';
+
+function HOC() {
+
+  const [theme, setTheme] = useState("light")
+
+  const modifyTheme = () => {
+    theme === "light" ? setTheme("dark") : setTheme("light")
+  }
+
+  const testFunction = (param) => {
+    console.log(param)
+  }
+
+  return (
+    <AppContext.Provider value={{ theme, modifyTheme, testFunction }}>
+      <Home />
+    </AppContext.Provider>
+  )
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Home />
+    <HOC/>
   </React.StrictMode>
 );
 

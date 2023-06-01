@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import TaskCard from '../components/TaskCard';
+import { AppContext } from '../context';
 
 // hooks
 // useState => modificar estados de un componente
@@ -41,11 +42,23 @@ function fetchTasks() {
   ]
 }
 
+function fetchUserInfo() {
+  return {
+    name: "Luis Delgado",
+    role: "Developer",
+    team: "Tekne"
+  }
+}
+
 function Home() {
 
   const [tasksState, setTasksState] = useState([])
   const [loading, setLoading] = useState(true)
   const [newTask, setNewTask] = useState('')
+  const [checkedLocalStorage, setCheckedLocalStorate] = useState(false)
+  const [checkedContext, setCheckedContext] = useState(false)
+
+  const { modifyTheme, testFunction } = useContext(AppContext)
 
   useEffect(() => {
     console.log('on mount')
@@ -55,6 +68,9 @@ function Home() {
     //   setTasksState(tasks)
     // }, 5000)
     const tasks = fetchTasks() // "servicio de backend que me retorna tareas"
+    const userInfo = fetchUserInfo();
+    localStorage.setItem("userInfo", JSON.stringify(userInfo));
+    localStorage.setItem("theme", 'light');
     setTasksState(tasks)
     setLoading(false)
   }, [])
@@ -151,6 +167,28 @@ function Home() {
   }
 
   return (
+    <div>
+      <div style={{ padding: '60px', display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+        <div>
+          Local Storage(Check enable dark mode): <input checked={checkedLocalStorage} type="checkbox" onClick={() => {
+            const newStateForCheckLocalStorage = !checkedLocalStorage;
+            setCheckedLocalStorate(newStateForCheckLocalStorage)
+            // if (newStateForCheckLocalStorage) {
+            //   localStorage.setItem("theme",  'dark');
+            // } else {
+            //   localStorage.setItem("theme",  'light');
+            // }
+            localStorage.setItem("theme", newStateForCheckLocalStorage ? 'dark' : 'light');
+          }} />
+        </div>
+        <div>
+          Context(Check enable dark mode): <input checked={checkedContext} type="checkbox" onClick={() => {
+            setCheckedContext(!checkedContext)
+            modifyTheme()
+            testFunction('checked button pressed')
+          }} />
+        </div>
+      </div>
       <div className="Home" style={{ 
         display: 'flex',
         justifyContent: 'center',
@@ -214,6 +252,7 @@ function Home() {
             )
           })}
         </div>
+      </div>
     </div>
   );
 }

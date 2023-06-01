@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { AppContext } from '../context';
 
 // const obj1 = {
 //     name: "pepe",
@@ -10,13 +11,32 @@ import { useEffect, useState } from 'react';
 
 function TaskCard(props) {
 
+    const [userInfo, setUserInfo] = useState()
+    const [theme, setTheme] = useState()
+
+    const { theme: themeFromContext } = useContext(AppContext)
+
+    useEffect(() => {
+        const userInfoFromLocalStorage = localStorage.getItem("userInfo");
+        const themeFromLocalStorage = localStorage.getItem("theme");
+        if (userInfoFromLocalStorage) {
+            setUserInfo(JSON.parse(userInfoFromLocalStorage))
+        }
+        if (themeFromLocalStorage) {
+            setTheme(themeFromLocalStorage)
+        }
+    }, [])
+
     const { taskInfo, onPressButtonTask, onPressAddComment, deleteTask, setNewNameForTask } = props;
 
     const [newComment, setNewComment] = useState("")
     const [currentTaskName, setCurrentTaskName] = useState(taskInfo?.name)
 
     return (
-        <div style={{ background: 'grey', margin: '15px' }}>
+        <div style={{ background: themeFromContext === 'dark' ? 'grey' : 'white', margin: '15px' }}>
+            <p>Theme from local storage: {theme}</p>
+            <p>Theme from context: {themeFromContext}</p>
+            {userInfo && <p>Asignation: {userInfo?.name}</p>}
             <p>Name: {taskInfo?.name}</p>
             <p>
                 <input type= "text" value={currentTaskName} onChange={(event) => setCurrentTaskName(event.target.value)} />
